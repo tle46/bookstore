@@ -46,6 +46,18 @@ nav {
     border-top: 2px solid #3498db;
 }
 
+.btn_order_details {
+    background: #000000;
+}
+
+.shipped {
+    background-color: #dbfdd0;
+}
+
+.cancelled {
+    background-color: #fdc9c9;
+}
+
 .quantity-input {
     width: 80px;
     padding: 4px 8px;

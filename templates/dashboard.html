@@ -15,7 +15,7 @@
         <th>Order Details</th>
     </tr>
     {% for order in orders %}
-    <tr>
+    <tr class="{{ 'shipped' if order.Status == 'Shipped' else 'cancelled' if order.Status == 'Cancelled' else '' }}">
         <td>{{ order.Order_ID }}</a></td>
         <td>{{ order.Date }}</td>
         <td>{{ order.Customer_ID }}</td>
@@ -34,7 +34,7 @@
         </td>
         <td>
             <a href="{{ url_for('order_details', order_id=order.Order_ID) }}"> 
-                <button type="button">See Order Details</button>
+                <button type="button" class="btn_order_details">See Order Details</button>
             </a>
         </td>
     </tr>
