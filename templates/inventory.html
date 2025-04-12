@@ -17,7 +17,7 @@
         <th>Actions</th>
     </tr>
     {% for inventory in inventories %}
-    <tr class="{{ 'low-stock' if inventory.Quantity < 5 else '' }}">
+    <tr class="{{ 'out-of-stock' if inventory.Quantity == 0 else ('low-stock' if inventory.Quantity < 5 else '') }}">
         <td>{{ inventory.ISBN }}</td>
         <td>{{ inventory.Title }}</td>
         <td>{{ inventory.Year }}</td>
