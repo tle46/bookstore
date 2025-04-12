@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Inventory Dashboard</h1>
+<p> 
+    Hey warehouse worker, you can check the stock for each book here!
+    Unfortunately we haven't added to feature to modify the book stock yet.
+</p>
+<table border="1">
+    <tr>
+        <th>ISBN</th>
+        <th>Book Title</th>
+        <th>Year</th>
+        <th>Quantity</th>
+    </tr>
+    {% for inventories in inventories %}
+    <tr>
+        <td>{{ inventories.ISBN }}</td>
+        <td>{{ inventories.Title }}</td>
+        <td>{{ inventories.Year }}</td>
+        <td>{{ inventories.Quantity }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

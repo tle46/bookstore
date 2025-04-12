@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Warehouse Dashboard</h1>
+<p> 
+    Hey warehouse worker, when you ship out an order, remember to update the database!
+</p>
+<table border="1">
+    <tr>
+        <th>Order ID</th>
+        <th>Date</th>
+        <th>Customer ID</th>
+        <th>Customer</th>
+        <th>Total</th>
+        <th>Status</th>
+    </tr>
+    {% for order in orders %}
+    <tr>
+        <td>{{ order.Order_ID }}</td>
+        <td>{{ order.Date }}</td>
+        <td>{{ order.Customer_ID }}</td>
+        <td>{{ order.Customer }}</td>
+        <td>${{ order.Total_Price }}</td>
+        <td>
+            <form method="post">
+                <input type="hidden" name="order_id" value="{{ order.Order_ID }}">
+                <select name="status">
+                    <option value="Processing" {% if order.Status == 'Processing' %}selected{% endif %}>Processing</option>
+                    <option value="Shipped" {% if order.Status == 'Shipped' %}selected{% endif %}>Shipped</option>
+                    <option value="Cancelled" {% if order.Status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                </select>
+                <input type="submit" value="Update">
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

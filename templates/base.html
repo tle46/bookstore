@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bookstore</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>CSE 3241 Bookstore App</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a> |
+            <a href="{{ url_for('dashboard') }}">Orders</a> |
+            <a href="{{ url_for('inventory') }}">Inventory</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Add a New Book</h2>
+<form method="post">
+    <label>ISBN: <input type="text" name="isbn" required></label><br>
+    <label>Title: <input type="text" name="title" required></label><br>
+    <label>Genre: <input type="text" name="genre"></label><br>
+    <label>Price: <input type="number" name="price" step="0.01" required></label><br>
+    <label>Year: <input type="number" name="year"></label><br>
+    <label>Publisher:
+        <select name="publisher_id">
+            <option value="">None</option>
+            {% for publisher in publishers %}
+            <option value="{{ publisher.Publisher_ID }}">{{ publisher.Name }}</option>
+            {% endfor %}
+        </select>
+    </label><br>
+    <input type="submit" value="Add Book">
+</form>
+{% endblock %}
