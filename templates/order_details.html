@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Order #{{ order.Order_ID }}</h3>
+
+<p><strong>Date:</strong> {{ order.Date }}</p>
+<p><strong>Customer:</strong> {{ order.Customer }} (ID: {{ order.Customer_ID }})</p>
+<p><strong>Status:</strong> {{ order.Status }}</p>
+<p><strong>Total:</strong> ${{ order.Total_Price }}</p>
+
+<h2>Items</h2>
+<table border="1">
+    <tr>
+        <th>ISBN</th>
+        <th>Title</th>
+        <th>Quantity</th>
+        <th>Price</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{ item.ISBN }}</td>
+        <td>{{ item.Title }}</td>
+        <td>{{ item.Quantity }}</td>
+        <td>${{ '%.2f' | format(item.Price) }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td><strong>Total</strong></td>
+        <td></td>
+        <td></td>
+        <td><strong>${{ order.Total_Price }}</strong></td>
+    </tr>
+</table>
+
+<p><a href="{{ url_for('dashboard') }}">← Back to Dashboard</a></p>
+{% endblock %}

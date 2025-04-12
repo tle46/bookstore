@@ -42,14 +42,35 @@ def dashboard():
 
     # Update dashboard
     orders = db.execute('''
-        SELECT o.Order_ID, o.Date, o.Status, o.Total_Price, o.Customer_ID,
-               c.First_Name || ' ' || c.Last_Name AS Customer
+        SELECT o.Order_ID, o.Date, o.Status, o.Total_Price, o.Customer_ID, c.First_Name || ' ' || c.Last_Name AS Customer
         FROM "Order" o
         JOIN Customer c ON o.Customer_ID = c.Customer_ID
         ORDER BY o.Date DESC
     ''').fetchall()
 
     return render_template('dashboard.html', orders=orders)
+
+@app.route('/order/<int:order_id>')
+def order_details(order_id):
+    db = get_db()
+
+    # Get order with matching order_id
+    order = db.execute('''
+        SELECT o.Order_ID, o.Date, o.Status, o.Total_Price, c.Customer_ID, c.First_Name || ' ' || c.Last_Name AS Customer
+        FROM "Order" o
+        JOIN Customer c ON o.Customer_ID = c.Customer_ID
+        WHERE o.Order_ID = ?
+    ''', (order_id,)).fetchone()
+
+    # Get order_items
+    items = db.execute('''
+        SELECT oi.Quantity, oi.Price, b.Title, b.ISBN
+        FROM Order_Item oi
+        JOIN Book b ON b.ISBN = oi.Book_ID
+        WHERE oi.Order_ID = ?
+    ''', (order_id,)).fetchall()
+
+    return render_template('order_details.html', order=order, items=items)
 
 if __name__ == '__main__':
     app.run(debug=True, port=3241)
