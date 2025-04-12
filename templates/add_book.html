@@ -1,20 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Add a New Book</h2>
-<form method="post">
-    <label>ISBN: <input type="text" name="isbn" required></label><br>
-    <label>Title: <input type="text" name="title" required></label><br>
-    <label>Genre: <input type="text" name="genre"></label><br>
-    <label>Price: <input type="number" name="price" step="0.01" required></label><br>
-    <label>Year: <input type="number" name="year"></label><br>
-    <label>Publisher:
-        <select name="publisher_id">
-            <option value="">None</option>
-            {% for publisher in publishers %}
-            <option value="{{ publisher.Publisher_ID }}">{{ publisher.Name }}</option>
-            {% endfor %}
-        </select>
-    </label><br>
-    <input type="submit" value="Add Book">
+<h1>Add New Book</h1>
+
+<form method="post" class="add-book-form">
+    <div class="form-group">
+        <label for="isbn">ISBN:</label>
+        <input type="text" id="isbn" name="isbn" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="year">Year:</label>
+        <input type="number" id="year" name="year" required min="1900" max="2025">
+    </div>
+    
+    <div class="form-group">
+        <label for="price">Price ($):</label>
+        <input type="number" id="price" name="price" step="0.01" min="0" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="quantity">Initial Quantity:</label>
+        <input type="number" id="quantity" name="quantity" min="0" required>
+    </div>
+    
+    <button type="submit">Add Book</button>
 </form>
+
+<a href="{{ url_for('inventory') }}" class="back-link">Back to Inventory</a>
 {% endblock %}

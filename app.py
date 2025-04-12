@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, redirect
 import sqlite3
 
 app = Flask(__name__)
@@ -71,6 +71,70 @@ def order_details(order_id):
     ''', (order_id,)).fetchall()
 
     return render_template('order_details.html', order=order, items=items)
+
+@app.route('/update_inventory', methods=['POST'])
+def update_inventory():
+    db = get_db()
+    try:
+        isbn = request.form['isbn']
+        new_quantity = int(request.form['quantity'])
+        
+        db.execute('''
+            UPDATE Inventory 
+            SET Quantity = ?
+            WHERE Book_ID = ?
+        ''', (new_quantity, isbn))
+        db.commit()
+        
+        return redirect(url_for('inventory'))
+    except Exception as e:
+        print(f"Error updating inventory: {e}")
+        return redirect(url_for('inventory'))
+    
+@app.route('/add_book', methods=['GET', 'POST'])
+def add_book():
+    if request.method == 'POST':
+        db = get_db()
+        try:
+            isbn = request.form['isbn']
+            title = request.form['title']
+            year = int(request.form['year'])
+            price = float(request.form['price'])
+            quantity = int(request.form['quantity'])
+            
+            # First add to Book table
+            db.execute('''
+                INSERT INTO Book (ISBN, Title, Year, Price)
+                VALUES (?, ?, ?, ?)
+            ''', (isbn, title, year, price))
+            
+            # Then add to Inventory
+            db.execute('''
+                INSERT INTO Inventory (Book_ID, Quantity)
+                VALUES (?, ?)
+            ''', (isbn, quantity))
+            
+            db.commit()
+            return redirect(url_for('inventory'))
+        except Exception as e:
+            print(f"Error adding book: {e}")
+            db.rollback()
+            return redirect(url_for('add_book'))
+            
+    return render_template('add_book.html')
+
+@app.route('/remove_book/<string:isbn>', methods=['POST'])
+def remove_book(isbn):
+    db = get_db()
+    try:
+        # Remove from Inventory first (foreign key constraint)
+        db.execute('DELETE FROM Inventory WHERE Book_ID = ?', (isbn,))
+        # Then remove from Book
+        db.execute('DELETE FROM Book WHERE ISBN = ?', (isbn,))
+        db.commit()
+    except Exception as e:
+        print(f"Error removing book: {e}")
+    return redirect(url_for('inventory'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=3241)

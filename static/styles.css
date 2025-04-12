@@ -45,3 +45,106 @@ nav {
     border-bottom: 2px solid #c5db34;
     border-top: 2px solid #3498db;
 }
+
+.quantity-input {
+    width: 80px;
+    padding: 4px 8px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+}
+
+.inventory-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 0;
+}
+
+.status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.low-stock {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.out-of-stock {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.in-stock {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px;
+    background-color: #2ecc71;
+    color: white;
+    border-radius: 4px;
+    display: none;
+    animation: fadeIn 0.3s;
+}
+
+.add-book-form {
+    max-width: 500px;
+    margin: 20px 0;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+}
+
+.add-book-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #27ae60;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.remove-btn {
+    background: #e74c3c;
+}
+
+.remove-btn:hover {
+    background: #c0392b;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #3498db;
+    text-decoration: none;
+}
+
+.inventory-actions {
+    margin-bottom: 20px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

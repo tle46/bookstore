@@ -1,24 +1,50 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Inventory Dashboard</h1>
-<p> 
-    Hey warehouse worker, you can check the stock for each book here!
-    Unfortunately we haven't added to feature to modify the book stock yet.
-</p>
+<div class="inventory-actions">
+    <a href="{{ url_for('add_book') }}" class="add-book-btn">Add New Book</a>
+</div>
+
+<p>Update book quantities and monitor stock levels:</p>
+
 <table border="1">
     <tr>
         <th>ISBN</th>
         <th>Book Title</th>
         <th>Year</th>
         <th>Quantity</th>
+        <th>Stock Status</th>
+        <th>Actions</th>
     </tr>
     {% for inventory in inventories %}
-    <tr>
+    <tr class="{{ 'low-stock' if inventory.Quantity < 5 else '' }}">
         <td>{{ inventory.ISBN }}</td>
         <td>{{ inventory.Title }}</td>
         <td>{{ inventory.Year }}</td>
-        <td>{{ inventory.Quantity }}</td>
+        <td>
+            <form method="post" action="{{ url_for('update_inventory') }}" class="inventory-form">
+                <input type="hidden" name="isbn" value="{{ inventory.ISBN }}">
+                <input type="number" name="quantity" value="{{ inventory.Quantity }}" min="0" class="quantity-input">
+                <input type="submit" value="Update">
+            </form>
+        </td>
+        <td>
+            {% if inventory.Quantity == 0 %}
+                <span class="status out-of-stock">Out of Stock</span>
+            {% elif inventory.Quantity < 5 %}
+                <span class="status low-stock">Low Stock</span>
+            {% else %}
+                <span class="status in-stock">In Stock</span>
+            {% endif %}
+        </td>
+        <td>
+            <form method="post" action="{{ url_for('remove_book', isbn=inventory.ISBN) }}" class="remove-form" onsubmit="return confirm('Are you sure you want to remove this book?');">
+                <button type="submit" class="remove-btn">Remove</button>
+            </form>
+        </td>
     </tr>
     {% endfor %}
 </table>
+
+<div id="notification" class="notification" style="display: none;"></div>
 {% endblock %}
