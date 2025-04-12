@@ -12,12 +12,12 @@
         <th>Year</th>
         <th>Quantity</th>
     </tr>
-    {% for inventories in inventories %}
+    {% for inventory in inventories %}
     <tr>
-        <td>{{ inventories.ISBN }}</td>
-        <td>{{ inventories.Title }}</td>
-        <td>{{ inventories.Year }}</td>
-        <td>{{ inventories.Quantity }}</td>
+        <td>{{ inventory.ISBN }}</td>
+        <td>{{ inventory.Title }}</td>
+        <td>{{ inventory.Year }}</td>
+        <td>{{ inventory.Quantity }}</td>
     </tr>
     {% endfor %}
 </table>
